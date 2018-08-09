@@ -1,5 +1,5 @@
 from databases import *
-from flask import Flask, render_template, url_for,request
+from flask import Flask, render_template, url_for,request, redirect
 app = Flask(__name__)
 
 @app.route('/')
@@ -14,6 +14,15 @@ def display_student(student_id):
 def add_student_route():
     if request.method == "GET":
         return render_template ("add.html")
-        return render_template ("add.html", a= "Received Post request" ) 
+
+    else:
+        name = request.form["student_name"]
+        year = request.form["student_year"]
+        add_student = (name, year, False)
+
+        return redirect('/')
+        session.add(add_student)
+        session.commit()
+      
 
 app.run(debug=True)
